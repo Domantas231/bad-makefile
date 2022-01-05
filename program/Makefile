@@ -1,22 +1,22 @@
-compiler:=gcc
-Flags:=-Wall -Ipwd
+CC:=gcc
+LDFLAGS:=-Wall -Ipwd
 OBJS:=$(wildcard *.o)
 BIN:=calculator
 
 all: $(BIN)
 
 $(BIN): main.o math_functions.o
-	$(compiler) $(Flags) main.o math_functions.o -o $(BIN)
+	$(CC) $(LDFLAGS) main.o math_functions.o -o $(BIN)
 
 main.o: main.c math_functions.h
-	$(compiler) -c main.c
+	$(CC) -c main.c
 
 math_functions.o: math_functions.c
-	$(compiler) -c math_functions.c 
-
-clean:
-	rm -f $(BIN) $(OBJS)
+	$(CC) -c math_functions.c 
 
 install:
 
 uninstall:
+
+clean:
+	rm -f $(BIN) $(OBJS)
