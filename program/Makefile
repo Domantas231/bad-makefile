@@ -1,22 +1,26 @@
 CC:=gcc
-LDFLAGS:=-Wall -Ipwd
-OBJS:=$(wildcard *.o)
 BIN:=calculator
+SRC:=$(wildcard *.c)
+OBJS:=$(SRC:.c=.o)
+
+PREFIX:=/usr
+
+.PHONY: all install uninstall clean
 
 all: $(BIN)
 
-$(BIN): main.o math_functions.o
-	$(CC) $(LDFLAGS) main.o math_functions.o -o $(BIN)
+$(BIN): $(OBJS)
+	$(CC) $^ -o $@ 
 
-main.o: main.c math_functions.h
-	$(CC) -c main.c
-
-math_functions.o: math_functions.c
-	$(CC) -c math_functions.c 
+%.o: %.c
+	$(CC) -c $^
 
 install:
+	install -d $(PREFIX)/bin
+	install -m 644 $(BIN) $(PREFIX)/bin/$(BIN)
 
 uninstall:
+	$(RM) $(PREFIX)/bin/$(BIN)
 
 clean:
-	rm -f $(BIN) $(OBJS)
+	$(RM) $(BIN) $(OBJS)
